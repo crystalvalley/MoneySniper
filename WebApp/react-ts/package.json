@@ -7,7 +7,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "@material-ui/core": "^4.1.0",
+    "@material-ui/icons": "^4.1.0",
+    "@material-ui/styles":"^4.1.0"
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src react-scripts start",
