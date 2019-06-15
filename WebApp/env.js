@@ -1,0 +1,1 @@
+export const EntryPoint = "localhost:3100";
