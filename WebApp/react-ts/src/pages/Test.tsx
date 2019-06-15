@@ -2,6 +2,7 @@ import React, { useEffect, useState, useReducer } from 'react';
 import { withStyles, WithStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
 import axios from 'axios';
+import SignIn from './Main/Signin'
 
 const styles = {
     root: {
@@ -52,13 +53,9 @@ const initialState : IState = {
     pw:"",
 }
 
-function initializer(): IState{
-    return {id:"",mail:"",pw:""}
-}
-
-
 const Test: React.FC<IProps & WithStyles<typeof styles>> = (props) => {
     const { classes } = props;
+
     /*
     const [ serverTime , setServerTime ] = useState();
     const [id, setId] = useState();
@@ -77,7 +74,5 @@ const Test: React.FC<IProps & WithStyles<typeof styles>> = (props) => {
         </div>
     );
 }
-  
-
 
 export default withStyles(styles)(Test);
