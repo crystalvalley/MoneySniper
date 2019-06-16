@@ -1,5 +1,5 @@
 import express from 'express';
-import { www } from './routes/www';
+import { www } from './routes';
 
 class App {
     public app: express.Application;
