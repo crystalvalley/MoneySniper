@@ -6,7 +6,6 @@ import UserInfo from '../context/UserLoginInfoContextProvider';
 const App: React.FC = () => {
   return (
     <div className="App">
-      hello this is money sniper
       <UserInfo>
         <Signin />
         <br/>
