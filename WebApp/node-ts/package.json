@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --watch src --delay 1 --config ./config/nodemon.json",
     "build": "webpack --config config/webpack.config.js",
-    "test": "jest --config config/jest.config.js"
+    "test": "jest --config config/jest.config.js --watchAll"
   },
   "author": "bs Kwon <beomsu.kwon.95@gmail.com>",
   "license": "MIT",
