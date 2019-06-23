@@ -10,3 +10,7 @@
     ```bash
     npm start
     ```
+- 테스트 환경 실행
+    ```bash
+    npm test
+    ```
