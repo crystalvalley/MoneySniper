@@ -1,2 +1,5 @@
 # VSCode Files
 .vscode/
+
+# SQL storage settings
+/WebApp/sql-storage
