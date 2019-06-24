@@ -1,5 +1,5 @@
 import React, { useReducer, useContext } from "react";
-import { TextField, Button, Paper, Typography, Box, createMuiTheme } from "@material-ui/core";
+import { TextField, Theme, Button, Paper, Typography, Box, createMuiTheme, Grid, Hidden } from "@material-ui/core";
 import axios from "axios";
 import InputR from "../../Environment/Reducers/InputReducer"
 import { UserLoginInfoContext } from "../../context/UserLoginInfoContextProvider"
@@ -10,48 +10,39 @@ import CustomButton from "../../Environment/Components/CustomButton";
 // 스타일
 // 리듀서 IAction,IState
 
-const styles = {
+const styles = (theme: Theme) => ({
+    root: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    subRoot: {
+        margin: "25px"
+    },
     paper: {
-        top: "10vh",
-        width: "25vw",
-        minWidth: "400px",
-        height: "20vw",
-        minHeight: "320px",
-        margin: "0 auto",
-        marginTop: "10vh",
-        padding: "35px 20px 35px 20px",
         boxShadow: "0px 1px 3px 0px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 2px 1px -1px rgba(0,0,0,0.12)",
-        borderRadius: "4px"
+        borderRadius: "4px",
+        padding: "25px"
     },
-    smallPaper: {
-        top: "20vw",
-        width: "25vw",
-        minWidth: "400px",
-        height: "3.5vw",
-        minHeight: "67px",
-        margin: "0 auto",
-        marginTop: "30px",
-        padding: "15px",
-
-    },
-    typho: {
-        fontSize: "1.5rem",
-        fontWeight: 500,
-        margin: "20px 0px 20px 0px"
-    },
-    blue: {
-        color: "blue",
+    font: {
+        [theme.breakpoints.up("xs")]: {
+            fontSize: "1rem"
+        },
+        [theme.breakpoints.up("md")]: {
+            fontSize: "1.5rem"
+        },
+        [theme.breakpoints.up("lg")]: {
+            fontSize: "2rem",
+        },
     },
     inner: {
-        marginBottom: "35px"
+        justifyContent: "center",
+        marginBottom: "30px"
     },
     tField: {
-        marginTop: "15px"
     },
     btn: {
-        marginTop: "25px"
     },
-}
+})
 
 
 interface Action {
@@ -122,29 +113,36 @@ const Signin: React.SFC<WithStyles<typeof styles>> = (props) => {
 
 
     return (
-        <div>
-            <Box flexDirection="column" className={classes.paper}>
-                <Box className={classes.inner} flexGrow="1">
-                    <Typography component="span" className={classes.typho}>Email</Typography><br />
-                    <TextField fullWidth className={classes.tField} placeholder="id" onChange={(e) => { inputDispatch({ type: "id", val: e.currentTarget.value }) }} /><br />
-                </Box>
-                <Box className={classes.inner} flexGrow="1">
-                    <Typography component="span" className={classes.typho}>Password   </Typography>
-                    {/*<Typography align="right" component="span" className={classes.blueTypho}>forgot your password?</Typography>*/}
-                    <CustomButton type="text" fullWidth={false} clickEvent={onLogin} text="Forgot you password?" className={classes.blue} />
-                    <br />
-                    <TextField type="password" fullWidth className={classes.tField} placeholder="pw" onChange={(e) => { inputDispatch({ type: "pw", val: e.currentTarget.value }) }} /><br />
-                </Box>
-                <Box textAlign="Center" className={classes.inner}>
-                    <CustomButton fullWidth={true} type="contained" clickEvent={onLogin} text="SIGN IN" className={classes.btn} />
-                </Box>
-                {/*<Button onClick={onLogin2}>test2</Button>*/}
-            </Box>
-            <Paper className={classes.smallPaper}>
-                <Typography component="span" className={classes.typho}>new to Money Sniper?</Typography>
-                <CustomButton fullWidth={false} type="text" clickEvent={onLogin} text="Join me" className={classes.blue} />
-            </Paper>
-        </div>
+        <Grid container className={classes.root}>
+            <Grid container className={classes.subRoot} xl={4} lg={5} md={6} sm={9} xs={10} spacing={3} >
+                <Grid item xs={12}>
+                    <Box flexDirection="column" className={classes.paper}>
+                        <Box className={classes.inner} flexGrow="1">
+                            <Typography component="span" className={classes.font}>Email</Typography><br />
+                            <TextField fullWidth className={classes.tField} placeholder="id" onChange={(e) => { inputDispatch({ type: "id", val: e.currentTarget.value }) }} /><br />
+                        </Box>
+                        <Box className={classes.inner}>
+                            <Typography component="span" className={classes.font}>
+                                Password
+                            <CustomButton type="text" fullWidth={false} clickEvent={onLogin} text="Forgot you password?" className="" />
+                            </Typography>
+                            <br />
+                            <TextField type="password" fullWidth className={classes.tField} placeholder="pw" onChange={(e) => { inputDispatch({ type: "pw", val: e.currentTarget.value }) }} /><br />
+                        </Box>
+                        <Box textAlign="Center" className={classes.inner} >
+                            <CustomButton fullWidth={true} type="contained" clickEvent={onLogin} text="SIGN IN" className={classes.btn} />
+                        </Box>
+                        {/*<Button onClick={onLogin2}>test2</Button>*/}
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography component="span" className={classes.font}>new to Money Sniper?</Typography>
+                        <CustomButton fullWidth={false} type="text" clickEvent={onLogin} text="Join me" className="" />
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Grid >
     )
 }
 
