@@ -5,8 +5,8 @@ const styles = {}
 
 interface IProps {
     text: string,
-    clickEvent(): void,
-    className:string,
+    clickEvent?(): void,
+    className?:string,
     type:"contained"|"text"|"outlined",
     fullWidth:boolean
 }

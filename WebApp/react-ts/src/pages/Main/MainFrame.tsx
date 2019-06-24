@@ -6,7 +6,6 @@ const MainFrame : React.FC = ()=>{
     return(
         <div>
             <HeaderBase/>
-            Body
         </div>
     );
 }
