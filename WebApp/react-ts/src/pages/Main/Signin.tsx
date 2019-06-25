@@ -1,5 +1,5 @@
 import React, { useReducer, useContext } from "react";
-import { TextField, Theme, Button, Paper, Typography, Box, createMuiTheme, Grid, Hidden } from "@material-ui/core";
+import { TextField, Theme, Paper, Typography, Box, Grid} from "@material-ui/core";
 import axios from "axios";
 import InputR from "../../Environment/Reducers/InputReducer"
 import { UserLoginInfoContext } from "../../context/UserLoginInfoContextProvider"
@@ -71,7 +71,6 @@ const LoginR = (state: IState, action: Action) => {
                 }
             })
             return state;
-            break;
         case "setId2":
             action.setId2!(state.id);
             axios.post("URL", {
@@ -84,13 +83,10 @@ const LoginR = (state: IState, action: Action) => {
                 }
             })
             return state;
-            break;
         case "stateChange":
             return action.val!;
-            break;
         default:
             return state;
-            break;
     }
 }
 

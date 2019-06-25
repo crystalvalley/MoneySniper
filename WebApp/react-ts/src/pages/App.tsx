@@ -9,8 +9,8 @@ const App: React.FC = () => {
     <BrowserRouter>
       <UserInfo>
         <Switch>
-          <Route path="/signin" children={<Signin />} />
-          <Route path="/" children={<MainFrame/>}/>
+          <Route path="/signin" component={Signin} />
+          <Route path="/" component={MainFrame} />
         </Switch>
       </UserInfo>
     </BrowserRouter>

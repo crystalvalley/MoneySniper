@@ -1,23 +1,23 @@
 import React from 'react';
 import { AppBar, Typography, Toolbar, Theme, Grid } from '@material-ui/core';
-import { withStyles, WithStyles } from '@material-ui/styles';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import CustomButton from '../../../Environment/Components/CustomButton';
 import { NavLink } from 'react-router-dom';
 
-const styles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     link: {
         color: "white"
     },
     head: {
-        justfyContent: "center"
+        backgroundColor: theme.palette.primary.dark,
     }
-})
+}))
 
-const HeaderBase: React.FC<WithStyles<typeof styles>> = (props) => {
-    const classes = props.classes;
+const HeaderBase: React.FC = () => {
+    const classes = useStyles();
     return (
         <AppBar position="static" className={classes.head}>
-            <Grid container spacing={3}>
+            <Grid container>
                 <Grid item xl={3} lg={3} />
                 <Grid item>
                 </Grid>
@@ -32,8 +32,8 @@ const HeaderBase: React.FC<WithStyles<typeof styles>> = (props) => {
                     </NavLink>
                 </Grid>
                 <Grid item>
-                    <NavLink to="/test3">
-                        <CustomButton className={classes.link} text="test3" fullWidth={false} type="text" />
+                    <NavLink exact to="/signin">
+                        <CustomButton className={classes.link} text="index" fullWidth={false} type="text" />
                     </NavLink>
                 </Grid>
                 <Grid item xl={3} lg={3} />
@@ -42,10 +42,4 @@ const HeaderBase: React.FC<WithStyles<typeof styles>> = (props) => {
     );
 }
 
-const Rrouter: React.FC = () => {
-    return (
-        <NavLink to="/test" />
-    )
-}
-
-export default withStyles(styles)(HeaderBase);
+export default HeaderBase;
