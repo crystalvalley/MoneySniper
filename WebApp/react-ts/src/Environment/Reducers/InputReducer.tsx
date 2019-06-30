@@ -3,8 +3,6 @@ interface IAction {
     val: string
 }
 
-
-
 function createInputReducer <T>(){
     return (state:T,action:IAction) =>{
         //console.log(action)
