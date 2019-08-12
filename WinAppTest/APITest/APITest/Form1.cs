@@ -21,6 +21,7 @@ namespace APITest
 			InitializeComponent();
 			this._apiInstance.OnEventConnect += this.UpdateInformation;
 			this._apiInstance.OnReceiveTrData += this.OnReceiveTrDataPlus;
+			this._apiInstance.OnReceiveChejanData += this.OnReceiveChejanData;
 		}
 
 
@@ -32,6 +33,7 @@ namespace APITest
 			foreach (string account in accounts)
 			{
 				log.Text += account + "\r\n";
+				this.tb_acc_code.Text = account;
 			}
 			log.Text += "유저ID\r\n";
 			log.Text += _apiInstance.GetLoginInfo("USER_ID");
@@ -50,7 +52,7 @@ namespace APITest
 		{
 			this.button1.Enabled = false;
 			dc = new DataCollection(this.tb_code.Text);
-			GetChartInfo(DateTime.Today,0);
+			GetChartInfo(DateTime.Today, 0);
 
 		}
 
@@ -65,36 +67,122 @@ namespace APITest
 
 		}
 
-		private void Button2_Click_1(object sender, EventArgs e)
-		{
-
-		}
 		private async void OnReceiveTrDataPlus(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
 		{
-			DateTime checkPoint = DateTime.Today;
-			object array = _apiInstance.GetCommDataEx(e.sTrCode, e.sRecordName);
-			int length = ((Array)array).Length / 15;
-			for (int i = 0; i < length; i++)
+			if (e.sRQName == "계좌평가잔고내역요청")
 			{
-				string[] valueArray = new string[4];
-				valueArray[0] = ((Array)array).GetValue(i, 2).ToString();
-				valueArray[1] = ((Array)array).GetValue(i, 3).ToString();
-				valueArray[2] = ((Array)array).GetValue(i, 4).ToString();
-				valueArray[3] = ((Array)array).GetValue(i, 5).ToString();
-				dc.Writing(valueArray);
-				if (i == length - 1)
-				{
-					Console.WriteLine(valueArray[0]);
-					checkPoint = DateTime.ParseExact(valueArray[0], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-				}
+				long totalBuyingAmount = long.Parse(_apiInstance.GetCommData(e.sTrCode, e.sRQName, 0, "총매입금액"));
+				long totalEstimatedAmount = long.Parse(_apiInstance.GetCommData(e.sTrCode, e.sRQName, 0, "총평가금액"));
+				log.Text += "\r\n"+totalBuyingAmount;
+				log.Text += "\r\n"+totalEstimatedAmount;
+			}else if (e.sRQName == "종목신규매수")
+			{
+
 			}
-			if (lastDate == checkPoint) return;
-			await Task.Run(async () => {
-				await Task.Delay(4000);
-				if(checkPoint != lastDate) GetChartInfo(checkPoint,2);
-			});
+			else if(e.sRQName== "주식일봉차트조회")
+			{
+				DateTime checkPoint = DateTime.Today;
+				object array = _apiInstance.GetCommDataEx(e.sTrCode, e.sRecordName);
+				int length = ((Array)array).Length / 15;
+				for (int i = 0; i < length; i++)
+				{
+					string[] valueArray = new string[4];
+					valueArray[0] = ((Array)array).GetValue(i, 2).ToString();
+					valueArray[1] = ((Array)array).GetValue(i, 3).ToString();
+					valueArray[2] = ((Array)array).GetValue(i, 4).ToString();
+					valueArray[3] = ((Array)array).GetValue(i, 5).ToString();
+					dc.Writing(valueArray);
+					if (i == length - 1)
+					{
+						Console.WriteLine(valueArray[0]);
+						checkPoint = DateTime.ParseExact(valueArray[0], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+					}
+				}
+				if (lastDate == checkPoint) return;
+				await Task.Run(async () =>
+				{
+					await Task.Delay(4000);
+					if (checkPoint != lastDate) GetChartInfo(checkPoint, 2);
+				});
+
+			}
 		}
 
+		private void Buying(object sender, EventArgs e)
+		{
+			//종목코드
+			string orderCode = tb_code.Text;
+			//계좌
+			string accountCode = "8120915411";
+			//주문수량
+			int stockQty = 1;
+			//주문가격, 시장가면 뭘 넣어도 가능
+			int stockPrice = 43150;
+			//거래구분 지정가
+			string orderCategory = "03";
+			int result = _apiInstance.SendOrder("종목신규매수", "8249", accountCode, 1, orderCode, stockQty, stockPrice, orderCategory, "");
+			if (result == 0) log.Text += "\r\n거래성공";
+			else log.Text += "\r\n거래실패";
+		}
+
+		private void Btn_accInfo_Click(object sender, EventArgs e)
+		{
+			_apiInstance.SetInputValue("계좌번호", "8120915411");
+			_apiInstance.SetInputValue("비밀번호", "");
+			_apiInstance.SetInputValue("비밀번호입력매체구분", "00");
+			_apiInstance.SetInputValue("조회구분", "1");
+			_apiInstance.CommRqData("계좌평가잔고내역요청", "OPW00018", 0, "0346");
+		}
+
+		private void OnReceiveChejanData(object sender,AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEvent e)
+		{
+			if(e.sGubun == "0")
+			{
+				this.log.Text += "\r\n구분 : 주문체결통보(0)";
+				this.log.Text += "\r\n원주문번호" + _apiInstance.GetChejanData(904);
+				this.log.Text += "\r\n주문체결시간" + _apiInstance.GetChejanData(908);
+				this.log.Text += "\r\n종목명" + _apiInstance.GetChejanData(302);
+				this.log.Text += "\r\n주문수량" + _apiInstance.GetChejanData(900);
+				this.log.Text += "\r\n체결수량" + _apiInstance.GetChejanData(911);
+				this.log.Text += "\r\n체결가격" + _apiInstance.GetChejanData(910);
+
+			}
+			else if(e.sGubun == "1")
+			{
+				this.log.Text += "\r\n구분 : 잔고통보(1)";
+				this.log.Text += "\r\n종목코드" + _apiInstance.GetChejanData(9001);
+				this.log.Text += "\r\n보유수량" + _apiInstance.GetChejanData(930);
+				this.log.Text += "\r\n예수금" + _apiInstance.GetChejanData(951);
+
+			}
+			else
+			{
+				this.log.Text += "\r\n구분 : 특이신호(3)";
+			}
+		}
+
+		private void Selling(object sender, EventArgs e)
+		{
+			//종목코드
+			string orderCode = tb_code.Text;
+			//계좌
+			string accountCode = "8120915411";
+			//주문수량
+			int stockQty = 1;
+			//주문가격, 시장가면 뭘 넣어도 가능
+			int stockPrice = 43150;
+			//거래구분 지정가
+			string orderCategory = "03";
+			/*
+				accountCode, orderCode 사이의 숫자
+				1 매수 2 매도
+				3 매수취소 4 매도취소
+				5 매수정정 6 매도정정
+			 */
+			int result = _apiInstance.SendOrder("종목신규매도", "8249", accountCode, 2, orderCode, stockQty, stockPrice, orderCategory, "");
+			if (result == 0) log.Text += "\r\n거래성공";
+			else log.Text += "\r\n거래실패";
+		}
 	}
 }
 

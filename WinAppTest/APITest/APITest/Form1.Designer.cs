@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			this._apiInstance = new AxKHOpenAPILib.AxKHOpenAPI();
 			this.button1 = new System.Windows.Forms.Button();
 			this.log = new System.Windows.Forms.TextBox();
 			this.get_chart = new System.Windows.Forms.Button();
@@ -38,17 +37,15 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.tb_minute = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
+			this._apiInstance = new AxKHOpenAPILib.AxKHOpenAPI();
+			this.btn_BuyOrder = new System.Windows.Forms.Button();
+			this.lb_acc = new System.Windows.Forms.Label();
+			this.lb_acc_code = new System.Windows.Forms.Label();
+			this.Btn_accInfo = new System.Windows.Forms.Button();
+			this.tb_acc_code = new System.Windows.Forms.TextBox();
+			this.btn_SellOrder = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this._apiInstance)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// _apiInstance
-			// 
-			this._apiInstance.Enabled = true;
-			this._apiInstance.Location = new System.Drawing.Point(12, 419);
-			this._apiInstance.Name = "_apiInstance";
-			this._apiInstance.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("_apiInstance.OcxState")));
-			this._apiInstance.Size = new System.Drawing.Size(61, 19);
-			this._apiInstance.TabIndex = 0;
 			// 
 			// button1
 			// 
@@ -120,11 +117,81 @@
 			this.label3.TabIndex = 8;
 			this.label3.Text = "1,3,5,10.15.30.45.60 가능";
 			// 
+			// _apiInstance
+			// 
+			this._apiInstance.Enabled = true;
+			this._apiInstance.Location = new System.Drawing.Point(12, 418);
+			this._apiInstance.Name = "_apiInstance";
+			this._apiInstance.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("_apiInstance.OcxState")));
+			this._apiInstance.Size = new System.Drawing.Size(75, 20);
+			this._apiInstance.TabIndex = 9;
+			// 
+			// btn_BuyOrder
+			// 
+			this.btn_BuyOrder.Location = new System.Drawing.Point(14, 98);
+			this.btn_BuyOrder.Name = "btn_BuyOrder";
+			this.btn_BuyOrder.Size = new System.Drawing.Size(75, 23);
+			this.btn_BuyOrder.TabIndex = 10;
+			this.btn_BuyOrder.Text = "매수테스트";
+			this.btn_BuyOrder.UseVisualStyleBackColor = true;
+			this.btn_BuyOrder.Click += new System.EventHandler(this.Buying);
+			// 
+			// lb_acc
+			// 
+			this.lb_acc.AutoSize = true;
+			this.lb_acc.Location = new System.Drawing.Point(10, 403);
+			this.lb_acc.Name = "lb_acc";
+			this.lb_acc.Size = new System.Drawing.Size(85, 12);
+			this.lb_acc.TabIndex = 11;
+			this.lb_acc.Text = "Account Code";
+			// 
+			// lb_acc_code
+			// 
+			this.lb_acc_code.AutoSize = true;
+			this.lb_acc_code.Location = new System.Drawing.Point(102, 403);
+			this.lb_acc_code.Name = "lb_acc_code";
+			this.lb_acc_code.Size = new System.Drawing.Size(0, 12);
+			this.lb_acc_code.TabIndex = 12;
+			// 
+			// Btn_accInfo
+			// 
+			this.Btn_accInfo.Location = new System.Drawing.Point(95, 98);
+			this.Btn_accInfo.Name = "Btn_accInfo";
+			this.Btn_accInfo.Size = new System.Drawing.Size(99, 23);
+			this.Btn_accInfo.TabIndex = 13;
+			this.Btn_accInfo.Text = "계좌정보테스트";
+			this.Btn_accInfo.UseVisualStyleBackColor = true;
+			this.Btn_accInfo.Click += new System.EventHandler(this.Btn_accInfo_Click);
+			// 
+			// tb_acc_code
+			// 
+			this.tb_acc_code.Location = new System.Drawing.Point(101, 400);
+			this.tb_acc_code.Name = "tb_acc_code";
+			this.tb_acc_code.Size = new System.Drawing.Size(132, 21);
+			this.tb_acc_code.TabIndex = 14;
+			// 
+			// btn_SellOrder
+			// 
+			this.btn_SellOrder.Location = new System.Drawing.Point(14, 127);
+			this.btn_SellOrder.Name = "btn_SellOrder";
+			this.btn_SellOrder.Size = new System.Drawing.Size(75, 23);
+			this.btn_SellOrder.TabIndex = 15;
+			this.btn_SellOrder.Text = "매도테스트";
+			this.btn_SellOrder.UseVisualStyleBackColor = true;
+			this.btn_SellOrder.Click += new System.EventHandler(this.Selling);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.btn_SellOrder);
+			this.Controls.Add(this.tb_acc_code);
+			this.Controls.Add(this.Btn_accInfo);
+			this.Controls.Add(this.lb_acc_code);
+			this.Controls.Add(this.lb_acc);
+			this.Controls.Add(this.btn_BuyOrder);
+			this.Controls.Add(this._apiInstance);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.tb_minute);
 			this.Controls.Add(this.label2);
@@ -133,7 +200,6 @@
 			this.Controls.Add(this.get_chart);
 			this.Controls.Add(this.log);
 			this.Controls.Add(this.button1);
-			this.Controls.Add(this._apiInstance);
 			this.Name = "Form1";
 			this.Text = "Form1";
 			((System.ComponentModel.ISupportInitialize)(this._apiInstance)).EndInit();
@@ -143,8 +209,6 @@
 		}
 
 		#endregion
-
-		private AxKHOpenAPILib.AxKHOpenAPI _apiInstance;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TextBox log;
 		private System.Windows.Forms.Button get_chart;
@@ -153,6 +217,13 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox tb_minute;
 		private System.Windows.Forms.Label label3;
+		private AxKHOpenAPILib.AxKHOpenAPI _apiInstance;
+		private System.Windows.Forms.Button btn_BuyOrder;
+		private System.Windows.Forms.Label lb_acc;
+		private System.Windows.Forms.Label lb_acc_code;
+		private System.Windows.Forms.Button Btn_accInfo;
+		private System.Windows.Forms.TextBox tb_acc_code;
+		private System.Windows.Forms.Button btn_SellOrder;
 	}
 }
 
